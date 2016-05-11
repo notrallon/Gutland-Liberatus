@@ -150,7 +150,7 @@ void Map::Draw()
             m_layers[i]->Draw();
         }
 
-        if (i == 1)
+        if (m_layers[i]->GetLayerName() == "Player_layer")
         {
             m_context->entityManager->Draw();
         }

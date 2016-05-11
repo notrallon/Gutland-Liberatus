@@ -28,16 +28,7 @@ void GameStateGame::OnCreate()
     m_stateMgr->GetContext()->window->GetRenderWindow()->setView(m_view);
 
     m_gameMap = new Map(m_stateMgr->GetContext(), this);
-    m_gameMap->LoadMap("media/Maps/default.tmx");
-
-/*	if (!m_music.openFromFile("media/Sound/Music/little town - orchestral.ogg"))
-	{
-		std::cout << "Could not load music: little town - orchestral.ogg!" << std::endl;
-	}
-
-	m_music.setLoop(true);
-
-	m_music.play();*/
+    m_gameMap->LoadMap("media/Maps/wisby01.tmx");
 }
 
 void GameStateGame::OnDestroy()
