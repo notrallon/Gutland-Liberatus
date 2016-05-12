@@ -27,8 +27,10 @@ void GameStateGame::OnCreate()
     m_view.zoom(0.6f);
     m_stateMgr->GetContext()->window->GetRenderWindow()->setView(m_view);
 
-    m_gameMap = new Map(m_stateMgr->GetContext(), this);
-    m_gameMap->LoadMap("media/Maps/wisby01.tmx");
+	LoadGameSettings();
+
+	m_gameMap = new Map(m_stateMgr->GetContext(), this);
+    m_gameMap->LoadMap(std::string("media/Maps/" + m_mapName + ".tmx"));
 }
 
 void GameStateGame::OnDestroy()
@@ -128,4 +130,37 @@ void GameStateGame::ToggleOverlay(Kengine::EventDetails* details)
 {
     std::cout << "ToggleOverlay" << std::endl;
     m_stateMgr->GetContext()->debugOverlay.SetDebug(!m_stateMgr->GetContext()->debugOverlay.Debug());
+}
+
+void GameStateGame::LoadGameSettings()
+{
+	std::ifstream file;
+	file.open(std::string("media/Game.cfg"));
+	if (!file.is_open())
+	{
+		std::cout << "Failed loading Game.cfg" << std::endl;
+	}
+
+	std::string line;
+	while (std::getline(file, line))
+	{
+		if (line[0] == '|')
+		{
+			continue;
+		}
+
+		std::stringstream 	keystream(line);
+		std::string 		type;
+		keystream >> type;
+
+		if (type == "Map")
+		{
+			keystream >> m_mapName;
+		}
+		else
+		{
+			std::cout << "Unknown type in game settings file: " << type << std::endl;
+		}
+	}
+	file.close();
 }

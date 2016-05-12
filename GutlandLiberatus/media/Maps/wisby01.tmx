@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" orientation="orthogonal" renderorder="right-down" width="40" height="30" tilewidth="32" tileheight="32" nextobjectid="1">
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="40" height="30" tilewidth="32" tileheight="32" nextobjectid="2">
  <tileset firstgid="1" name="wisby" tilewidth="32" tileheight="32" tilecount="2014" columns="53">
   <image source="../Textures/Wisby.png" width="1696" height="1216"/>
  </tileset>
@@ -3615,7 +3615,7 @@
    <tile gid="0"/>
   </data>
  </layer>
- <layer name="Player_layer" width="40" height="30" visible="0">
+ <layer name="Player_layer" width="40" height="30">
   <data>
    <tile gid="0"/>
    <tile gid="0"/>
@@ -8431,4 +8431,11 @@
    <tile gid="0"/>
   </data>
  </layer>
+ <objectgroup name="Entities">
+  <object id="1" name="PlayerStart" type="Player" x="224" y="352" width="32" height="32">
+   <properties>
+    <property name="last_map" value="default"/>
+   </properties>
+  </object>
+ </objectgroup>
 </map>
