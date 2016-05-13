@@ -55,6 +55,7 @@ void GameStateGame::Activate()
 
 void GameStateGame::Deactivate()
 {
+    m_gameMap->music.pause();
 }
 
 void GameStateGame::Update(const sf::Time& time)
@@ -117,13 +118,11 @@ void GameStateGame::Draw()
 void GameStateGame::MainMenu(Kengine::EventDetails* details)
 {
     m_stateMgr->SwitchTo(StateType::MainMenu);
-	m_gameMap->music.pause();
 }
 
 void GameStateGame::Pause(Kengine::EventDetails* details)
 {
     m_stateMgr->SwitchTo(StateType::Paused);
-	m_gameMap->music.pause();
 }
 
 void GameStateGame::ToggleOverlay(Kengine::EventDetails* details)
