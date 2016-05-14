@@ -97,13 +97,16 @@ void Map::LoadMap(const std::string& path)
 
     std::cout << "--- Map Loaded! ---" << std::endl;
 
-	if (!music.openFromFile("media/Sound/Music/" + m_musicName))
-	{
-		std::cout << "Could not open music file: " << m_musicName << std::endl;
-	}
+    if (music.Paused)
+    {
+        if (!music.openFromFile("media/Sound/Music/" + m_musicName))
+        {
+            std::cout << "Could not open music file: " << m_musicName << std::endl;
+        }
 
-	music.setLoop(true);
-	music.play();
+        music.setLoop(true);
+        music.play();
+    }
 
     root->Clear();
     root = nullptr;
