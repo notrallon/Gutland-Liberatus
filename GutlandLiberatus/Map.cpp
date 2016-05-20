@@ -2,6 +2,8 @@
 #include "StateManager.h"
 #include "TileLayer.h"
 
+#define MUSIC_VOLUME 50
+
 Map::Map(SharedContext* context, Kengine::BaseState* currentState) :
     m_context(context), m_defaultTile(context), m_maxMapSize(32, 32),
     m_tileCount(0), m_tileSetCount(0), m_mapGravity(0.0f),
@@ -104,6 +106,7 @@ void Map::LoadMap(const std::string& path)
             std::cout << "Could not open music file: " << m_musicName << std::endl;
         }
 
+		music.setVolume(MUSIC_VOLUME);
         music.setLoop(true);
         music.play();
     }

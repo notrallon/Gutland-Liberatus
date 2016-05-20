@@ -89,6 +89,7 @@ protected:
     std::string   m_name;
     EntityType    m_type;
     unsigned int  m_id;             // Entity id in the entity manager.
+	unsigned int  m_tileSize = 32;		// The size of the tiles in our map.
 
     sf::Vector2f  m_position;       // Current position.
     sf::Vector2f  m_positionOld;    // Position before entity moved.

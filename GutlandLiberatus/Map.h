@@ -19,8 +19,10 @@ using TileID = unsigned int;
 
 /*
    ===========================================================
-   struct TileInfo holds information about specific tiles such
-   as friction, position, texture, or other custom properties.
+	   struct TileInfo 
+   
+	   Holds information about specific tiles such as friction, 
+	   position, texture, or other custom properties.
    ===========================================================
  */
 struct TileInfo

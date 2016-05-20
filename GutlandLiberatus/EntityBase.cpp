@@ -92,9 +92,9 @@ void EntityBase::Move(float x, float y)
 		m_velocity.x = 0;
 		m_collidingOnX = true;
     }
-    else if (m_position.x > (mapSize.x) * Sheet::Tile_Size)
+    else if (m_position.x > (mapSize.x) * m_tileSize)
     {
-        m_position.x = (mapSize.x) * Sheet::Tile_Size;
+        m_position.x = mapSize.x * m_tileSize;
 		m_velocity.x = 0;
 		m_collidingOnX = true;
     }
@@ -105,9 +105,9 @@ void EntityBase::Move(float x, float y)
 		m_velocity.y = 0;
 		m_collidingOnY = true;
     }
-    else if (m_position.y > (mapSize.y) * Sheet::Tile_Size)
+    else if (m_position.y > (mapSize.y) * m_tileSize)
     {
-        m_position.y = (mapSize.y) * Sheet::Tile_Size;
+        m_position.y = mapSize.y * m_tileSize;
 		m_velocity.y = 0;
 		m_collidingOnY = true;
     }
@@ -240,15 +240,15 @@ void EntityBase::UpdateAABB()
 
 void EntityBase::CheckCollisions()
 {
-    Map                 *gameMap  = m_entityManager->GetContext()->gameMap;
-    std::vector<Layer*> *mapLayer = m_entityManager->GetContext()->gameMap->GetLayers();
-    unsigned int        tileSize  = gameMap->GetTileSize();
-    int                 fromX     = floor(m_AABB.left / tileSize);
-    int                 toX       = floor((m_AABB.left + m_AABB.width) / tileSize);
-    int                 fromY     = floor(m_AABB.top / tileSize);
-    int                 toY       = floor((m_AABB.top + m_AABB.height) / tileSize);
+    Map                 *gameMap	= m_entityManager->GetContext()->gameMap;
+    std::vector<Layer*> *mapLayer	= m_entityManager->GetContext()->gameMap->GetLayers();
+//						m_tileSize  = gameMap->GetTileSize();
+    int                 fromX		= (int)floor(m_AABB.left / m_tileSize);
+    int                 toX			= (int)floor((m_AABB.left + m_AABB.width) / m_tileSize);
+    int                 fromY		= (int)floor(m_AABB.top / m_tileSize);
+    int                 toY			= (int)floor((m_AABB.top + m_AABB.height) / m_tileSize);
 
-    for (auto itr = mapLayer->begin(); itr != mapLayer->end(); ++itr)
+    for (std::vector<Layer*>::iterator itr = mapLayer->begin(); itr != mapLayer->end(); ++itr)
     {
         if ((*itr)->GetLayerName() == std::string("collision"))
         {
@@ -261,7 +261,7 @@ void EntityBase::CheckCollisions()
                     {
                         continue;
                     }
-                    sf::FloatRect    tileBounds(x * tileSize, y * tileSize, tileSize, tileSize);
+                    sf::FloatRect    tileBounds(x * m_tileSize, y * m_tileSize, m_tileSize, m_tileSize);
                     sf::FloatRect    intersection;
                     m_AABB.intersects(tileBounds, intersection);
                     float            area = intersection.width * intersection.height;
@@ -274,6 +274,7 @@ void EntityBase::CheckCollisions()
                     }
                 }
             }
+			break;
         }
     }
 }

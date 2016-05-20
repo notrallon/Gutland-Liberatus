@@ -130,8 +130,8 @@ bool BaseAnimation::IsInAction()
         return true;
     }
 
-    return(m_frameCurrent >= m_frameActionStart &&
-           m_frameCurrent <= m_frameActionEnd);
+    return (m_frameCurrent >= (Frame)m_frameActionStart &&
+            m_frameCurrent <= (Frame)m_frameActionEnd);
 }
 
 std::string BaseAnimation::GetName()
