@@ -1,5 +1,7 @@
 #include "TileLayer.h"
 
+#define TILE_SIZE 32
+
 TileLayer::TileLayer(SharedContext* context, TileSet* tileset,
                      std::string layerName) :
     m_context(context), m_tileSet(tileset), m_layerName(layerName)
@@ -9,10 +11,10 @@ TileLayer::TileLayer(SharedContext* context, TileSet* tileset,
 
 TileLayer::~TileLayer()
 {
-    for (auto &itr : m_tileMap)
+    for (TileMap::iterator itr = m_tileMap.begin(); itr != m_tileMap.end(); ++itr)
     {
-        delete itr.second;
-        itr.second = nullptr;
+        delete itr->second;
+        itr->second = nullptr;
     }
     m_tileMap.clear();
     m_tileSet = nullptr;
@@ -26,7 +28,7 @@ void TileLayer::Update()
 
 Tile* TileLayer::GetTile(unsigned int x, unsigned int y)
 {
-    auto itr = m_tileMap.find(m_gameMap->ConvertCoords(x, y));
+    TileMap::iterator itr = m_tileMap.find(m_gameMap->ConvertCoords(x, y));
     return(itr != m_tileMap.end() ? itr->second : nullptr);
 }
 
@@ -43,16 +45,16 @@ void TileLayer::Draw()
     // that is not currently within the viewspace of
     // will not be drawn. Culling.
     sf::FloatRect viewSpace = m_context->window->GetViewSpace();
-    sf::Vector2i  tileBegin(floor(viewSpace.left / Sheet::Tile_Size),
-                            floor(viewSpace.top / Sheet::Tile_Size));
-    sf::Vector2i  tileEnd(ceil((viewSpace.left + viewSpace.width) / Sheet::Tile_Size),
-                          ceil((viewSpace.top + viewSpace.height) / Sheet::Tile_Size));
+    sf::Vector2i  tileBegin(floor(viewSpace.left / TILE_SIZE),
+                            floor(viewSpace.top / TILE_SIZE));
+    sf::Vector2i  tileEnd(ceil((viewSpace.left + viewSpace.width) / TILE_SIZE),
+                          ceil((viewSpace.top + viewSpace.height) / TILE_SIZE));
 
     unsigned int count = 0;
-    for (int x = tileBegin.x; x <= tileEnd.x; ++x)
+    for (int y = tileBegin.y; y <= tileEnd.y; ++y)
     {
-        for (int y = tileBegin.y; y <= tileEnd.y; ++y)
-        {
+		for (int x = tileBegin.x; x <= tileEnd.x; ++x)
+		{
             if (x < 0 || y < 0)
             {
                 continue;
@@ -73,8 +75,8 @@ void TileLayer::Draw()
                 if (tile->properties->m_deadly || tile->warp)
                 {
                     sf::RectangleShape* tileMarker = new sf::RectangleShape(
-                        sf::Vector2f(Sheet::Tile_Size, Sheet::Tile_Size));
-                    tileMarker->setPosition(x * Sheet::Tile_Size, y * Sheet::Tile_Size);
+                        sf::Vector2f(TILE_SIZE, TILE_SIZE));
+                    tileMarker->setPosition(x * TILE_SIZE, y * TILE_SIZE);
                     if (tile->properties->m_deadly)
                     {
                         tileMarker->setFillColor(sf::Color(255, 0, 0, 100));

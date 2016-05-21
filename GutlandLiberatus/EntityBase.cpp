@@ -248,14 +248,17 @@ void EntityBase::CheckCollisions()
     int                 fromY		= (int)floor(m_AABB.top / m_tileSize);
     int                 toY			= (int)floor((m_AABB.top + m_AABB.height) / m_tileSize);
 
-    for (std::vector<Layer*>::iterator itr = mapLayer->begin(); itr != mapLayer->end(); ++itr)
+	// Since our collision layer is usually one of the last
+	// layers we itterate backwards and break as soon as we get to it
+	for ( std::vector<Layer*>::reverse_iterator itr = mapLayer->rbegin(); itr != mapLayer->rend(); ++itr )
+//	for (std::vector<Layer*>::iterator itr = mapLayer->begin(); itr != mapLayer->end(); ++itr)
     {
         if ((*itr)->GetLayerName() == std::string("collision"))
         {
-            for (int x = fromX; x <= toX; ++x)
+            for (int y = fromY; y <= toY; ++y)
             {
-                for (int y = fromY; y <= toY; ++y)
-                {
+				for (int x = fromX; x <= toX; ++x)
+				{
                     Tile* tile = (*itr)->GetTile(x, y);
                     if (!tile)
                     {
