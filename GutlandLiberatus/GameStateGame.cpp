@@ -83,11 +83,9 @@ void GameStateGame::Update(const sf::Time& time)
         m_view.setCenter(viewSpace.width / 2.0f, m_view.getCenter().y);
         context->window->GetRenderWindow()->setView(m_view);
     }
-    else if (viewSpace.left + viewSpace.width >
-             (m_gameMap->GetMapSize().x) * Sheet::Tile_Size)
+    else if (viewSpace.left + viewSpace.width > (m_gameMap->GetMapSize().x) * TILE_SIZE)
     {
-        m_view.setCenter(((m_gameMap->GetMapSize().x) *
-                          Sheet::Tile_Size) - (viewSpace.width / 2.0f),
+        m_view.setCenter(((m_gameMap->GetMapSize().x) * TILE_SIZE) - (viewSpace.width / 2.0f),
                          m_view.getCenter().y);
         context->window->GetRenderWindow()->setView(m_view);
     }
@@ -98,11 +96,11 @@ void GameStateGame::Update(const sf::Time& time)
         context->window->GetRenderWindow()->setView(m_view);
     }
     else if (viewSpace.top + viewSpace.height >
-             (m_gameMap->GetMapSize().y) * Sheet::Tile_Size)
+             (m_gameMap->GetMapSize().y) * TILE_SIZE)
     {
         m_view.setCenter(m_view.getCenter().x,
                          ((m_gameMap->GetMapSize().y) *
-                          Sheet::Tile_Size) - (viewSpace.height / 2.0f));
+                          TILE_SIZE) - (viewSpace.height / 2.0f));
         context->window->GetRenderWindow()->setView(m_view);
     }
 

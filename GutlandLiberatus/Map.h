@@ -11,9 +11,9 @@
 #include "SharedContext.h"
 #include "tinyxml.h"
 
-class Layer;
+#define TILE_SIZE 32
 
-enum Sheet { Tile_Size = 32, Sheet_Width = 256, Sheet_Height = 256 };
+class Layer;
 
 using TileID = unsigned int;
 

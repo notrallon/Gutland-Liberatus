@@ -22,7 +22,7 @@ Map::~Map()
 Tile* Map::GetTile(unsigned int x, unsigned int y)
 {
     // Needs to search in the layer tilemap
-    auto itr = m_tileMap.find(ConvertCoords(x, y));
+    TileMap::iterator itr = m_tileMap.find(ConvertCoords(x, y));
     return(itr != m_tileMap.end() ? itr->second : nullptr);
 }
 
@@ -215,7 +215,7 @@ void Map::LoadTiles(TiXmlElement* tilesetRoot)
         {
             e->Attribute("id", &id);
 
-            auto itr = m_tileSet.find(id);
+            TileSet::iterator itr = m_tileSet.find(id);
 
             for (TiXmlElement* p = e->FirstChildElement(); p != NULL; p = p->NextSiblingElement())
             {
@@ -300,7 +300,7 @@ void Map::ParseObjectLayer(TiXmlElement* objectElement)
 void Map::PurgeMap()
 {
     m_tileCount = 0;
-    for (auto &itr : m_tileMap)
+    for (TileMap::value_type &itr : m_tileMap)
     {
         delete itr.second;
     }
@@ -326,7 +326,7 @@ void Map::PurgeMap()
 
 void Map::PurgeTileSet()
 {
-    for (auto &itr : m_tileSet)
+    for (TileSet::value_type &itr : m_tileSet)
     {
         delete itr.second;
     }

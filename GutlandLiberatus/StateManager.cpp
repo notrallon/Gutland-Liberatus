@@ -14,7 +14,7 @@ StateManager::StateManager(SharedContext* shared) :
 
 StateManager::~StateManager()
 {
-    for (auto &itr : m_states)
+    for (StateContainer::value_type &itr : m_states)
     {
         itr.second->OnDestroy();
         delete itr.second;
@@ -26,10 +26,11 @@ void StateManager::Draw()
     {
         return;
     }
-    if (m_states.back().second->IsTransparent()
-        && m_states.size() > 1)
+
+    if (m_states.back().second->IsTransparent() && 
+		m_states.size() > 1)
     {
-        auto itr = m_states.end();
+        StateContainer::iterator itr = m_states.end();
         while (itr != m_states.begin())
         {
             if (itr != m_states.end())
@@ -128,7 +129,7 @@ SharedContext* StateManager::GetContext()
 void StateManager::SwitchTo(const StateType& type)
 {
     m_shared->eventManager->SetCurrentState(type);
-    for (auto itr = m_states.begin();
+    for (StateContainer::iterator itr = m_states.begin();
          itr != m_states.end(); ++itr)
     {
         if (itr->first == type)
@@ -175,7 +176,7 @@ void StateManager::CreateState(const StateType& type)
 
 void StateManager::RemoveState(const StateType& type)
 {
-    for (auto itr = m_states.begin();
+    for (StateContainer::iterator itr = m_states.begin();
          itr != m_states.end(); ++itr)
     {
         if (itr->first == type)

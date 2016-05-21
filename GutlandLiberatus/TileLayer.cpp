@@ -1,7 +1,5 @@
 #include "TileLayer.h"
 
-#define TILE_SIZE 32
-
 TileLayer::TileLayer(SharedContext* context, TileSet* tileset,
                      std::string layerName) :
     m_context(context), m_tileSet(tileset), m_layerName(layerName)
@@ -50,7 +48,7 @@ void TileLayer::Draw()
     sf::Vector2i  tileEnd(ceil((viewSpace.left + viewSpace.width) / TILE_SIZE),
                           ceil((viewSpace.top + viewSpace.height) / TILE_SIZE));
 
-    unsigned int count = 0;
+//    unsigned int count = 0;
     for (int y = tileBegin.y; y <= tileEnd.y; ++y)
     {
 		for (int x = tileBegin.x; x <= tileEnd.x; ++x)
@@ -59,15 +57,17 @@ void TileLayer::Draw()
             {
                 continue;
             }
+
             Tile* tile = GetTile(x, y);
             if (!tile)
             {
                 continue;
             }
+
             sf::Sprite& sprite = tile->properties->m_sprite;
             sprite.setPosition(x * tile->properties->tileWidth, y * tile->properties->tileHeight);
             window->draw(sprite);
-            ++count;
+//            ++count;
 
             // Debug.
             if (m_context->debugOverlay.Debug())
@@ -104,6 +104,7 @@ void TileLayer::CreateLayer(TiXmlElement* tileData, int mapWidth)
             x = 0;
             ++y;
         }
+
         if (e->Value() == std::string("tile"))
         {
             int tileID = 0;
