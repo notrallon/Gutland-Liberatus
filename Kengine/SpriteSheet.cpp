@@ -173,7 +173,7 @@ BaseAnimation* SpriteSheet::GetCurrentAnimation()
 bool SpriteSheet::SetAnimation(const std::string& name,
                                const bool& play, const bool& loop)
 {
-    auto itr = m_animations.find(name);
+    Animations::iterator itr = m_animations.find(name);
     if (itr == m_animations.end())
     {
         return false;

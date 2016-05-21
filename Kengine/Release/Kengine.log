@@ -1,1 +1,5 @@
-﻿  Kengine.vcxproj -> W:\school\Gutland-Liberatus\Release\Kengine.lib
+﻿  EventManager.cpp
+  SpriteSheet.cpp
+SpriteSheet.cpp(38): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+  Window.cpp
+  Kengine.vcxproj -> W:\school\Gutland-Liberatus\Release\Kengine.lib
