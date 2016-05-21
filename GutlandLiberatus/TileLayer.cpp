@@ -117,7 +117,7 @@ void TileLayer::CreateLayer(TiXmlElement* tileData, int mapWidth)
                 ++x; continue;
             }
 
-            auto itr = m_tileSet->find(tileID);
+            TileSet::iterator itr = m_tileSet->find(tileID);
 
             Tile * tile = new Tile();
 

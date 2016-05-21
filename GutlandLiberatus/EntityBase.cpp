@@ -19,12 +19,11 @@ EntityBase::EntityBase(EntityManager* entityManager) :
 
 EntityBase::~EntityBase()
 {
-    for (auto &itr : m_collisions)
+    for (Collisions::value_type &itr : m_collisions)
     {
         delete &itr;
     }
     m_collisions.clear();
-
     m_entityManager = nullptr;
 }
 
@@ -289,7 +288,7 @@ void EntityBase::ResolveCollisions()
         std::sort(m_collisions.begin(), m_collisions.end(), SortCollisions);
         Map          * gameMap = m_entityManager->GetContext()->gameMap;
         unsigned int tileSize  = gameMap->GetTileSize();
-        for (auto &itr : m_collisions)
+        for (Collisions::value_type &itr : m_collisions)
         {
             if (!m_AABB.intersects(itr.m_tileBounds))
             {

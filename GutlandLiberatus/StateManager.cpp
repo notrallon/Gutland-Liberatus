@@ -64,7 +64,7 @@ void StateManager::Update(const sf::Time& time)
     if (m_states.back().second->IsTranscendent()
         && m_states.size() > 1)
     {
-        auto itr = m_states.end();
+        StateContainer::iterator itr = m_states.end();
         while (itr != m_states.begin())
         {
             if (itr != m_states.end())
@@ -89,12 +89,12 @@ void StateManager::Update(const sf::Time& time)
 
 bool StateManager::HasState(const StateType& type)
 {
-    for (auto itr = m_states.begin();
+    for (StateContainer::iterator itr = m_states.begin();
          itr != m_states.end(); ++itr)
     {
         if (itr->first == type)
         {
-            auto removed = std::find(m_toRemove.begin(),
+            TypeContainer::iterator removed = std::find(m_toRemove.begin(),
                                      m_toRemove.end(), type);
 
             if (removed == m_toRemove.end())
@@ -158,7 +158,7 @@ void StateManager::SwitchTo(const StateType& type)
 
 void StateManager::CreateState(const StateType& type)
 {
-    auto newState = m_stateFactory.find(type);
+    StateFactory::iterator newState = m_stateFactory.find(type);
 
     if (newState == m_stateFactory.end())
     {
