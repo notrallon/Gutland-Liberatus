@@ -2,7 +2,7 @@
 
 School project where we made a game using our own engine.
 
-#ABOUT THE GAME
+##ABOUT THE GAME
 
 ”Gutland Liberatus” is an open world RPG that is taking place in an alternate reality, on the 
 island of Gotland around the beginning of the nineteenth century. The game provides a story
@@ -45,7 +45,7 @@ new player begin playing the game they will soon learn that the island is on the
 uproar, even if they never asked a question about it. However, they don’t really have to do anything
 about it, if they don’t want to.
 
-#THE TEAM
+##THE TEAM
 
 Lead gamedesign: 
 * Tim Grödem
