@@ -3,7 +3,6 @@
 #include <vector>
 #include <unordered_map>
 #include "GameStateSplashScreen.h"
-#include "GameStateIntro.h"
 #include "GameStateMainMenu.h"
 #include "GameStateGame.h"
 #include "GameStatePaused.h"

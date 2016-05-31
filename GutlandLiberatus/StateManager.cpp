@@ -4,7 +4,6 @@ StateManager::StateManager(SharedContext* shared) :
     m_shared(shared)
 {
     RegisterState<GameStateSplashScreen>(StateType::SplashScreen);
-    RegisterState<GameStateIntro>(StateType::Intro);
     RegisterState<GameStateMainMenu>(StateType::MainMenu);
     RegisterState<GameStateGame>(StateType::Game);
     RegisterState<GameStatePaused>(StateType::Paused);
