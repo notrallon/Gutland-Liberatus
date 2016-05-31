@@ -170,18 +170,12 @@ unsigned int Map::ConvertCoords(const unsigned int &x, const unsigned int &y)
 
 void Map::LoadTiles(TiXmlElement* tilesetRoot)
 {
-    std::cout << "Loading tiles" << std::endl;
-
     TileInfo tile = TileInfo(m_context);
-
     tilesetRoot->Attribute("tilecount", &m_tileCount);
-
-    std::cout << m_tileCount << std::endl;
 
     for (int i = 0; i < m_tileCount; i++)
     {
         TileInfo* tileinfo = new TileInfo(m_context);
-
         tilesetRoot->Attribute("firstgid", &tileinfo->firstGridID);
         tilesetRoot->Attribute("tilewidth", &tileinfo->tileWidth);
         tilesetRoot->Attribute("tileheight", &tileinfo->tileHeight);

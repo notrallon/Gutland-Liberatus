@@ -35,6 +35,8 @@ private:
 	sf::Sound			 m_lamb;
 	sf::SoundBuffer		 m_enkelBuffer;
 	sf::Sound			 m_enkel;
+	sf::Font			 m_font;
+	sf::Text			 m_text;
 
     Kengine::SpriteSheet *m_spriteSheet;
 

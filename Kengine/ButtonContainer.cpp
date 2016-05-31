@@ -56,9 +56,6 @@ namespace Kengine
 
 	void ButtonContainer::addButton(std::string name, sf::Vector2f position, sf::Vector2f size, sf::Color textColor, sf::Color backgroundColor, sf::Color hoverColor)
 	{
-
-		std::cout << "Added button" << std::endl;
-
 		Kengine::Button temp_button;
 
 		temp_button.setFont(m_font);

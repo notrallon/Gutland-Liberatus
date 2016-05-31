@@ -134,7 +134,6 @@ void Window::Create()
 
     m_options.readFile("media/Option.kopt");
     bool temp = m_options.getBoolOptionAt("verticalsync");
-    std::cout << "Vertical sync is: " << temp << std::endl;
     SetVerticalSync(temp);
 }
 

@@ -2,6 +2,8 @@
 #include "StateManager.h"
 #include <iostream>
 
+#define CHAR_SIZE 14
+
 GameStateSplashScreen::GameStateSplashScreen(StateManager * statemanager) : BaseState(statemanager)
 {
 }
@@ -14,49 +16,57 @@ GameStateSplashScreen::~GameStateSplashScreen()
 
 void GameStateSplashScreen::OnCreate()
 {
-	m_lambBuffer.loadFromFile("media/Sound/Effects/Lamm.ogg");
-	m_lamb.setBuffer(m_lambBuffer);
-	m_lamb.setVolume(100); 
-	m_lamb.setLoop(false);
+	m_lambBuffer.loadFromFile( "media/Sound/Effects/Lamm.ogg" );
+	m_lamb.setBuffer( m_lambBuffer );
+	m_lamb.setVolume( 100 );
+	m_lamb.setLoop( false );
 
-	m_enkelBuffer.loadFromFile("media/Sound/Effects/Enkel.ogg");
-	m_enkel.setBuffer(m_enkelBuffer);
-	m_enkel.setVolume(50);
-	m_enkel.setLoop(false);
+	m_enkelBuffer.loadFromFile( "media/Sound/Effects/Enkel.ogg" );
+	m_enkel.setBuffer( m_enkelBuffer );
+	m_enkel.setVolume( 50 );
+	m_enkel.setLoop( false );
 
-    m_elapsedTime    = 0.0f;
-    m_opacity        = 0;
-    m_opacityChecker = 0.05f;
-    m_fading         = false;
-    m_finished       = false;
+	m_elapsedTime = 0.0f;
+	m_opacity = 0;
+	m_opacityChecker = 0.05f;
+	m_fading = false;
+	m_finished = false;
 
-    sf::Vector2u windowSize = m_stateMgr->GetContext()->
-                              window->GetRenderWindow()->getSize();
+	sf::Vector2u windowSize = m_stateMgr->GetContext()->
+		window->GetRenderWindow()->getSize();
 
-    m_spriteSheet = new Kengine::SpriteSheet(this->GetStateManager()->GetContext()->textureManager);
-    if (!m_spriteSheet->LoadSheet("media/SpriteSheets/LLISplash.sheet"))
-    {
-        std::cout << "Loading LLISPLASH failed" << std::endl;
-    }
+	m_spriteSheet = new Kengine::SpriteSheet( this->GetStateManager()->GetContext()->textureManager );
+	if ( !m_spriteSheet->LoadSheet( "media/SpriteSheets/LLISplash.sheet" ) ) {
+		std::cout << "Loading LLISPLASH failed" << std::endl;
+	}
 
-    m_spriteSheet->SetSpritePosition(sf::Vector2f(windowSize.x / 2.0f, windowSize.y / 1.5f));
-    m_spriteSheet->SetAnimation("Idle", false, false);
-    m_spriteSheet->GetCurrentAnimation()->Reset();
+	m_spriteSheet->SetSpritePosition( sf::Vector2f( windowSize.x / 2.0f, windowSize.y / 1.5f ) );
+	m_spriteSheet->SetAnimation( "Idle", false, false );
+	m_spriteSheet->GetCurrentAnimation()->Reset();
 
-    if (!m_texture.loadFromFile("media/Textures/splashscreen.png"))
-    {
-        std::cout << "Could not open splash screen texture!" << std::endl;
-    }
-    m_sprite.setTexture(m_texture);
-    m_sprite.setColor(sf::Color(255, 255, 255, m_opacity));
-    m_sprite.setOrigin(m_texture.getSize().x / 2.0f,
-                       m_texture.getSize().y / 2.0f);
-    m_sprite.setPosition(windowSize.x / 2.0f, windowSize.y / 2.0f);
+	if ( !m_texture.loadFromFile( "media/Textures/splashscreen.png" ) ) {
+		std::cout << "Could not open splash screen texture!" << std::endl;
+	}
+	m_sprite.setTexture( m_texture );
+	m_sprite.setColor( sf::Color( 255, 255, 255, m_opacity ) );
+	m_sprite.setOrigin( m_texture.getSize().x / 2.0f,
+						m_texture.getSize().y / 2.0f );
+	m_sprite.setPosition( windowSize.x / 2.0f, windowSize.y / 2.0f );
 
-    Kengine::EventManager* evMgr = m_stateMgr->GetContext()->eventManager;
+	Kengine::EventManager* evMgr = m_stateMgr->GetContext()->eventManager;
 
-    evMgr->AddCallback(StateType::SplashScreen, "Intro_Continue",
-                       &GameStateSplashScreen::Continue, this);
+	evMgr->AddCallback( StateType::SplashScreen, "Intro_Continue",
+						&GameStateSplashScreen::Continue, this );
+
+	m_font.loadFromFile( "media/Fonts/arial.ttf" );
+
+	m_text.setFont( m_font );
+	m_text.setString( { "Press SPACE to continue!" } );
+	m_text.setCharacterSize(CHAR_SIZE);
+	sf::FloatRect textRect = m_text.getLocalBounds();
+	m_text.setOrigin( textRect.left + textRect.width / 2.0f,
+					  textRect.top + textRect.height / 2.0f );
+	m_text.setPosition(windowSize.x / 2.0f, windowSize.y / 2.0f);
 }
 
 void GameStateSplashScreen::OnDestroy()
@@ -120,14 +130,11 @@ void GameStateSplashScreen::Update(const sf::Time & time)
         {
             //if it has run continue for 5 sec continue
             this->m_splashScreenIndex += 1;
-            std::cout << "Changing index";
         }
 
         //Check everytime the animations stop
         if (!m_spriteSheet->GetCurrentAnimation()->IsPlaying())
         {
-            std::cout << m_elapsedTime << std::endl;
-
             if (!m_secondSplashCheck)
             {
                 //If it hasent run yet run it
@@ -140,13 +147,7 @@ void GameStateSplashScreen::Update(const sf::Time & time)
     }
     else
     {
-		
         m_finished = true;
-    }
-
-    if (m_finished)
-    {
-        //Continue();
     }
     m_elapsedTime += time.asSeconds();
 }
@@ -162,6 +163,10 @@ void GameStateSplashScreen::Draw()
     {
         m_spriteSheet->Draw(window);
     }
+	if (m_finished)
+	{
+		window->draw(m_text);
+	}
 }
 
 void GameStateSplashScreen::Continue(Kengine::EventDetails * details)
