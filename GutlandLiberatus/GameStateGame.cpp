@@ -27,17 +27,10 @@ void GameStateGame::OnCreate()
     m_view.zoom(0.6f);
     m_stateMgr->GetContext()->window->GetRenderWindow()->setView(m_view);
 
-    m_gameMap = new Map(m_stateMgr->GetContext(), this);
-    m_gameMap->LoadMap("media/Maps/default.tmx");
+	LoadGameSettings();
 
-/*	if (!m_music.openFromFile("media/Sound/Music/little town - orchestral.ogg"))
-	{
-		std::cout << "Could not load music: little town - orchestral.ogg!" << std::endl;
-	}
-
-	m_music.setLoop(true);
-
-	m_music.play();*/
+	m_gameMap = new Map(m_stateMgr->GetContext(), this);
+    m_gameMap->LoadMap(std::string("media/Maps/" + m_mapName + ".tmx"));
 }
 
 void GameStateGame::OnDestroy()
@@ -62,6 +55,7 @@ void GameStateGame::Activate()
 
 void GameStateGame::Deactivate()
 {
+    m_gameMap->music.pause();
 }
 
 void GameStateGame::Update(const sf::Time& time)
@@ -89,11 +83,9 @@ void GameStateGame::Update(const sf::Time& time)
         m_view.setCenter(viewSpace.width / 2.0f, m_view.getCenter().y);
         context->window->GetRenderWindow()->setView(m_view);
     }
-    else if (viewSpace.left + viewSpace.width >
-             (m_gameMap->GetMapSize().x) * Sheet::Tile_Size)
+    else if (viewSpace.left + viewSpace.width > (m_gameMap->GetMapSize().x) * TILE_SIZE)
     {
-        m_view.setCenter(((m_gameMap->GetMapSize().x) *
-                          Sheet::Tile_Size) - (viewSpace.width / 2.0f),
+        m_view.setCenter(((m_gameMap->GetMapSize().x) * TILE_SIZE) - (viewSpace.width / 2.0f),
                          m_view.getCenter().y);
         context->window->GetRenderWindow()->setView(m_view);
     }
@@ -104,11 +96,11 @@ void GameStateGame::Update(const sf::Time& time)
         context->window->GetRenderWindow()->setView(m_view);
     }
     else if (viewSpace.top + viewSpace.height >
-             (m_gameMap->GetMapSize().y) * Sheet::Tile_Size)
+             (m_gameMap->GetMapSize().y) * TILE_SIZE)
     {
         m_view.setCenter(m_view.getCenter().x,
                          ((m_gameMap->GetMapSize().y) *
-                          Sheet::Tile_Size) - (viewSpace.height / 2.0f));
+                          TILE_SIZE) - (viewSpace.height / 2.0f));
         context->window->GetRenderWindow()->setView(m_view);
     }
 
@@ -124,17 +116,48 @@ void GameStateGame::Draw()
 void GameStateGame::MainMenu(Kengine::EventDetails* details)
 {
     m_stateMgr->SwitchTo(StateType::MainMenu);
-	m_gameMap->music.pause();
 }
 
 void GameStateGame::Pause(Kengine::EventDetails* details)
 {
     m_stateMgr->SwitchTo(StateType::Paused);
-	m_gameMap->music.pause();
 }
 
 void GameStateGame::ToggleOverlay(Kengine::EventDetails* details)
 {
     std::cout << "ToggleOverlay" << std::endl;
     m_stateMgr->GetContext()->debugOverlay.SetDebug(!m_stateMgr->GetContext()->debugOverlay.Debug());
+}
+
+void GameStateGame::LoadGameSettings()
+{
+	std::ifstream file;
+	file.open(std::string("media/Game.cfg"));
+	if (!file.is_open())
+	{
+		std::cout << "Failed loading Game.cfg" << std::endl;
+	}
+
+	std::string line;
+	while (std::getline(file, line))
+	{
+		if (line[0] == '|')
+		{
+			continue;
+		}
+
+		std::stringstream 	keystream(line);
+		std::string 		type;
+		keystream >> type;
+
+		if (type == "Map")
+		{
+			keystream >> m_mapName;
+		}
+		else
+		{
+			std::cout << "Unknown type in game settings file: " << type << std::endl;
+		}
+	}
+	file.close();
 }

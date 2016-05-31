@@ -7,8 +7,13 @@
     <property name="warp" value="default"/>
    </properties>
   </tile>
+  <tile id="3">
+   <properties>
+    <property name="warp" value="wisby01"/>
+   </properties>
+  </tile>
  </tileset>
- <layer name="ground" width="40" height="30">
+ <layer name="Player_layer" width="40" height="30">
   <data>
    <tile gid="487"/>
    <tile gid="487"/>
@@ -4077,7 +4082,7 @@
    <tile gid="0"/>
    <tile gid="1"/>
    <tile gid="1"/>
-   <tile gid="3"/>
+   <tile gid="4"/>
    <tile gid="0"/>
    <tile gid="0"/>
    <tile gid="0"/>

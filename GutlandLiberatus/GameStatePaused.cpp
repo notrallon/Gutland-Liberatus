@@ -16,7 +16,7 @@ void GameStatePaused::OnCreate()
     }
     m_text.setFont(m_font);
     m_text.setString(sf::String("PAUSED"));
-    m_text.setCharacterSize(14);
+    m_text.setCharacterSize(28);
     m_text.setStyle(sf::Text::Bold);
 
     sf::Vector2u  windowSize = m_stateMgr->GetContext()->window->GetRenderWindow()->getSize();

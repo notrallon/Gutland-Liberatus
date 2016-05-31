@@ -9,7 +9,7 @@ EventManager::EventManager() : m_hasFocus(true)
 
 EventManager::~EventManager()
 {
-    for (auto &itr : m_bindings)
+    for (Bindings::value_type &itr : m_bindings)
     {
         delete itr.second;
         itr.second = nullptr;
@@ -28,7 +28,7 @@ bool EventManager::AddBinding(Binding *binding)
 
 bool EventManager::RemoveBinding(std::string name)
 {
-    auto itr = m_bindings.find(name);
+    Bindings::iterator itr = m_bindings.find(name);
     if (itr == m_bindings.end())
     {
         return false;
@@ -55,11 +55,11 @@ void EventManager::SetCurrentState(const StateType& state)
 void EventManager::HandleEvent(sf::Event &event)
 {
     // Handling SFML events.
-    for (auto &b_itr : m_bindings)
+    for (Bindings::value_type &b_itr : m_bindings)
     {
         Binding* bind = b_itr.second;
 
-        for (auto &e_itr : bind->m_events)
+        for (Events::value_type &e_itr : bind->m_events)
         {
             EventType sfmlEvent = (EventType) event.type;
             if (e_itr.first != sfmlEvent)
@@ -142,11 +142,11 @@ void EventManager::Update()
         return;
     }
 
-    for (auto &b_itr : m_bindings)
+    for (Bindings::value_type &b_itr : m_bindings)
     {
         Binding* bind = b_itr.second;
 
-        for (auto &e_itr : bind->m_events)
+        for (Events::value_type &e_itr : bind->m_events)
         {
             switch (e_itr.first)
             {

@@ -32,4 +32,7 @@ public:
 
 private:
     Map			*m_gameMap;
+	std::string m_mapName;
+
+	void 		LoadGameSettings();
 };

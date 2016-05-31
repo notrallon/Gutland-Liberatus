@@ -2,6 +2,8 @@
 #include "StateManager.h"
 #include "TileLayer.h"
 
+#define MUSIC_VOLUME 50
+
 Map::Map(SharedContext* context, Kengine::BaseState* currentState) :
     m_context(context), m_defaultTile(context), m_maxMapSize(32, 32),
     m_tileCount(0), m_tileSetCount(0), m_mapGravity(0.0f),
@@ -20,7 +22,7 @@ Map::~Map()
 Tile* Map::GetTile(unsigned int x, unsigned int y)
 {
     // Needs to search in the layer tilemap
-    auto itr = m_tileMap.find(ConvertCoords(x, y));
+    TileMap::iterator itr = m_tileMap.find(ConvertCoords(x, y));
     return(itr != m_tileMap.end() ? itr->second : nullptr);
 }
 
@@ -97,13 +99,17 @@ void Map::LoadMap(const std::string& path)
 
     std::cout << "--- Map Loaded! ---" << std::endl;
 
-	if (!music.openFromFile("media/Sound/Music/" + m_musicName))
-	{
-		std::cout << "Could not open music file: " << m_musicName << std::endl;
-	}
+    if (music.Paused)
+    {
+        if (!music.openFromFile("media/Sound/Music/" + m_musicName))
+        {
+            std::cout << "Could not open music file: " << m_musicName << std::endl;
+        }
 
-	music.setLoop(true);
-	music.play();
+		music.setVolume(MUSIC_VOLUME);
+        music.setLoop(true);
+        music.play();
+    }
 
     root->Clear();
     root = nullptr;
@@ -150,7 +156,7 @@ void Map::Draw()
             m_layers[i]->Draw();
         }
 
-        if (i == 1)
+        if (m_layers[i]->GetLayerName() == "Player_layer")
         {
             m_context->entityManager->Draw();
         }
@@ -209,7 +215,7 @@ void Map::LoadTiles(TiXmlElement* tilesetRoot)
         {
             e->Attribute("id", &id);
 
-            auto itr = m_tileSet.find(id);
+            TileSet::iterator itr = m_tileSet.find(id);
 
             for (TiXmlElement* p = e->FirstChildElement(); p != NULL; p = p->NextSiblingElement())
             {
@@ -294,7 +300,7 @@ void Map::ParseObjectLayer(TiXmlElement* objectElement)
 void Map::PurgeMap()
 {
     m_tileCount = 0;
-    for (auto &itr : m_tileMap)
+    for (TileMap::value_type &itr : m_tileMap)
     {
         delete itr.second;
     }
@@ -320,7 +326,7 @@ void Map::PurgeMap()
 
 void Map::PurgeTileSet()
 {
-    for (auto &itr : m_tileSet)
+    for (TileSet::value_type &itr : m_tileSet)
     {
         delete itr.second;
     }

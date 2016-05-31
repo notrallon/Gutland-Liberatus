@@ -1,9 +1,1 @@
-﻿Build started 2016-05-11 11:48:11.
-     1>Project "E:\Gutland Liberatus\Gutland-Liberatus\Kengine\Kengine.vcxproj" on node 2 (Build target(s)).
-     1>Lib:
-         Kengine.vcxproj -> E:\Gutland Liberatus\Gutland-Liberatus\Release\Kengine.lib
-     1>Done Building Project "E:\Gutland Liberatus\Gutland-Liberatus\Kengine\Kengine.vcxproj" (Build target(s)).
-
-Build succeeded.
-
-Time Elapsed 00:00:00.04
+﻿  Kengine.vcxproj -> W:\Testingplace\Gutland-Liberatus\Release\Kengine.lib

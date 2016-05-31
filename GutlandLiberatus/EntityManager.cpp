@@ -18,7 +18,7 @@ EntityManager::~EntityManager()
 
 int EntityManager::Add(const EntityType& type, const std::string& name)
 {
-    auto itr = m_entityFactory.find(type);
+    EntityFactory::iterator itr = m_entityFactory.find(type);
 
     if (itr == m_entityFactory.end())
     {
@@ -35,7 +35,7 @@ int EntityManager::Add(const EntityType& type, const std::string& name)
 
     if (type == EntityType::Enemy)
     {
-        auto itr = m_enemyTypes.find(name);
+        EnemyTypes::iterator itr = m_enemyTypes.find(name);
 
         if (itr != m_enemyTypes.end())
         {
@@ -50,7 +50,7 @@ int EntityManager::Add(const EntityType& type, const std::string& name)
 
 EntityBase* EntityManager::Find(unsigned int id)
 {
-    auto itr = m_entities.find(id);
+    EntityContainer::iterator itr = m_entities.find(id);
     if (itr == m_entities.end())
     {
         return nullptr;
@@ -60,7 +60,7 @@ EntityBase* EntityManager::Find(unsigned int id)
 
 EntityBase* EntityManager::Find(const std::string & name)
 {
-    for (auto &itr : m_entities)
+    for (EntityContainer::value_type &itr : m_entities)
     {
         if (itr.second->GetName() == name)
         {
@@ -77,7 +77,7 @@ void EntityManager::Remove(unsigned int id)
 
 void EntityManager::Update(float dt)
 {
-    for (auto &itr : m_entities)
+    for (EntityContainer::value_type &itr : m_entities)
     {
         itr.second->Update(dt);
     }
@@ -90,7 +90,7 @@ void EntityManager::Draw()
     sf::RenderWindow* window  = m_context->window->GetRenderWindow();
     sf::FloatRect   viewSpace = m_context->window->GetViewSpace();
 
-    for (auto &itr : m_entities)
+    for (EntityContainer::value_type &itr : m_entities)
     {
         if (!viewSpace.intersects(itr.second->m_AABB))
         {
@@ -102,7 +102,7 @@ void EntityManager::Draw()
 
 void EntityManager::Purge()
 {
-    for (auto &itr : m_entities)
+    for (EntityContainer::value_type &itr : m_entities)
     {
         delete itr.second;
     }
@@ -120,8 +120,8 @@ void EntityManager::ProcessRemovals()
 {
     while (m_entitiesToRemove.begin() != m_entitiesToRemove.end())
     {
-        unsigned int id  = m_entitiesToRemove.back();
-        auto         itr = m_entities.find(id);
+        unsigned int id					= m_entitiesToRemove.back();
+        EntityContainer::iterator itr	= m_entities.find(id);
         if (itr != m_entities.end())
         {
             std::cout << "Discarding entity: " << itr->second->GetId() << std::endl;
@@ -167,10 +167,10 @@ void EntityManager::EntityCollisionCheck()
         return;
     }
 
-    for (auto itr = m_entities.begin();
+    for (EntityContainer::iterator itr = m_entities.begin();
          std::next(itr) != m_entities.end(); ++itr)
     {
-        for (auto itr2 = std::next(itr);
+        for (EntityContainer::iterator itr2 = std::next(itr);
              itr2 != m_entities.end(); ++itr2)
         {
             if (itr->first == itr2->first)

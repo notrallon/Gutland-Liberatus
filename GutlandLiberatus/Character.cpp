@@ -21,22 +21,32 @@ void Character::Move(const Kengine::Direction& dir)
         return;
     }
     m_spriteSheet.SetDirection(dir);
-    if (dir == Kengine::Direction::Left)
-    {
-        Accelerate(-m_speed.x, 0);
-    }
-    else if (dir == Kengine::Direction::Right)
-    {
-        Accelerate(m_speed.x, 0);
-    }
-    else if (dir == Kengine::Direction::Up)
-    {
-        Accelerate(0, -m_speed.y);
-    }
-    else if (dir == Kengine::Direction::Down)
-    {
-        Accelerate(0, m_speed.y);
-    }
+
+	switch (dir) {
+		case Kengine::Direction::Left:
+		{
+			Accelerate( -m_speed.x, 0 );
+		} break;
+
+		case Kengine::Direction::Right:
+		{
+			Accelerate( m_speed.x, 0 );
+		} break;
+
+		case Kengine::Direction::Up:
+		{
+			Accelerate( 0, -m_speed.y );
+		} break;
+
+		case Kengine::Direction::Down:
+		{
+			Accelerate( 0, m_speed.y );
+		} break;
+
+		default:
+		{} break;
+	}
+
     if (GetState() == EntityState::Idle)
     {
         SetState(EntityState::Walking);
