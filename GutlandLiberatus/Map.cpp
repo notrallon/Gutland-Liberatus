@@ -149,16 +149,19 @@ void Map::Update(float dt)
 
 enum string_code
 {
-	COLLISION,
+	NORMAL_LAYER,
+	COLLISION_LAYER,
 	PLAYER_LAYER
 };
 
 string_code hash ( std::string const& str )
 {
 	if ( str == "collision" ) {
-		return COLLISION;
+		return COLLISION_LAYER;
 	} else if ( str == "Player_layer" ) {
 		return PLAYER_LAYER;
+	} else {
+		return NORMAL_LAYER;
 	}
 }
 
@@ -168,7 +171,7 @@ void Map::Draw()
     {
 #if 1
 		switch ( hash(m_layers[i]->GetLayerName() ) ) {
-			case COLLISION:
+			case COLLISION_LAYER:
 			{
 //				m_layers[ i ]->Draw();
 			} break;
@@ -176,11 +179,15 @@ void Map::Draw()
 			case PLAYER_LAYER:
 			{
 				m_context->entityManager->Draw();
+			} continue;
+
+			case NORMAL_LAYER:
+			{
+				m_layers[ i ]->Draw();
 			} break;
 
 			default:
 			{
-				m_layers[ i ]->Draw();
 			} break;
 		}
 #else
