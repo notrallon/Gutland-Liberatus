@@ -30,7 +30,7 @@ Tile* TileLayer::GetTile(unsigned int x, unsigned int y)
     return(itr != m_tileMap.end() ? itr->second : nullptr);
 }
 
-std::string TileLayer::GetLayerName()
+std::string TileLayer::GetLayerName() const
 {
     return m_layerName;
 }

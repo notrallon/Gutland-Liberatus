@@ -240,7 +240,7 @@ void EntityBase::UpdateAABB()
 void EntityBase::CheckCollisions()
 {
     Map                 *gameMap	= m_entityManager->GetContext()->gameMap;
-    std::vector<Layer*> *mapLayer	= m_entityManager->GetContext()->gameMap->GetLayers();
+	std::vector<Layer*> *mapLayer	= gameMap->GetLayers();
 //						m_tileSize  = gameMap->GetTileSize();
     int                 fromX		= (int)floor(m_AABB.left / m_tileSize);
     int                 toX			= (int)floor((m_AABB.left + m_AABB.width) / m_tileSize);

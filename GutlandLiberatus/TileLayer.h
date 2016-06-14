@@ -18,7 +18,7 @@ public:
     virtual void            Draw();
 
     virtual Tile*           GetTile(unsigned int x, unsigned int y);
-    virtual std::string     GetLayerName();
+    virtual std::string     GetLayerName() const;
 
     void                    CreateLayer(TiXmlElement* tileData, int mapWidth);
 

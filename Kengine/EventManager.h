@@ -130,7 +130,7 @@ namespace  Kengine
         bool RemoveCallback(StateType state, const std::string& name)
         {
             // Itterate through our callbacks to find the state pair in the first map
-            auto itr = m_callbacks.find(state);
+            Callbacks::iterator itr = m_callbacks.find(state);
 
             // If the state isn't in our map
             if (itr == m_callbacks.end())

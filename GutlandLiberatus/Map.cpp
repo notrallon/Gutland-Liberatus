@@ -147,10 +147,43 @@ void Map::Update(float dt)
     }
 }
 
+enum string_code
+{
+	COLLISION,
+	PLAYER_LAYER
+};
+
+string_code hash ( std::string const& str )
+{
+	if ( str == "collision" ) {
+		return COLLISION;
+	} else if ( str == "Player_layer" ) {
+		return PLAYER_LAYER;
+	}
+}
+
 void Map::Draw()
 {
     for (int i = 0; i < m_layers.size(); ++i)
     {
+#if 1
+		switch ( hash(m_layers[i]->GetLayerName() ) ) {
+			case COLLISION:
+			{
+//				m_layers[ i ]->Draw();
+			} break;
+
+			case PLAYER_LAYER:
+			{
+				m_context->entityManager->Draw();
+			} break;
+
+			default:
+			{
+				m_layers[ i ]->Draw();
+			} break;
+		}
+#else
         if (m_layers[i]->GetLayerName() != "collision")
         {
             m_layers[i]->Draw();
@@ -160,6 +193,7 @@ void Map::Draw()
         {
             m_context->entityManager->Draw();
         }
+#endif
     }
 }
 
